@@ -15,5 +15,12 @@ object Settings {
 		"Token for discord bot"
 	)
 
+	private[justcord] val channelID: String = cfg.getString(
+		"channelID",
+		"general",
+		"0000000000000000",
+		"channelID for communication"
+	)
+
 	if (cfg.hasChanged) cfg.save()
 }
