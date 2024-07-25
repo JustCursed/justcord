@@ -1,4 +1,6 @@
 dependencies {
 	implementation 'org.scala-lang:scala-library:2.11.7'
-	implementation("net.dv8tion:JDA:5.0.1") {exclude module: 'opus-java'}
+	implementation("net.dv8tion:JDA:5.0.1") {
+		exclude module: 'opus-java'
+	}
 }

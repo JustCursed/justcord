@@ -8,18 +8,32 @@ import java.io.File
 object Settings {
 	private val cfg: Configuration = new Configuration(cfgFile.get)
 
-	private[justcord] val token: String = cfg.getString(
+	private[justcord] val botEnabled = cfg.getBoolean(
+		"botEnabled",
+		"general",
+		true,
+		"Should enable bot?"
+	)
+
+	private[justcord] val token = cfg.getString(
 		"token",
 		"general",
 		"secure",
 		"Token for discord bot"
 	)
 
-	private[justcord] val channelID: String = cfg.getString(
+	private[justcord] val guildID = cfg.getString(
+		"guildID",
+		"general",
+		"0000000000000000",
+		"Working guild id"
+	)
+
+	private[justcord] val channelID = cfg.getString(
 		"channelID",
 		"general",
 		"0000000000000000",
-		"channelID for communication"
+		"Working channel id"
 	)
 
 	if (cfg.hasChanged) cfg.save()

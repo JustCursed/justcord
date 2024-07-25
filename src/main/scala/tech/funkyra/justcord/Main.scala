@@ -1,12 +1,14 @@
 package tech.funkyra.justcord
 
-import cpw.mods.fml.common.{FMLCommonHandler, Mod}
+import cpw.mods.fml.common.Mod
 import cpw.mods.fml.common.Mod.EventHandler
-import cpw.mods.fml.common.event.{FMLPreInitializationEvent, FMLServerStartingEvent, FMLServerStoppedEvent}
+import cpw.mods.fml.common.event.{FMLPreInitializationEvent, FMLServerStartingEvent, FMLServerStoppedEvent, FMLServerStoppingEvent}
 import net.minecraftforge.common.MinecraftForge
-import org.apache.logging.log4j.LogManager
-import org.apache.logging.log4j.Logger
+import org.apache.logging.log4j.{LogManager, Logger}
+import tech.funkyra.justcord.DiscordUtil.{getChannel, getClient}
 import tech.funkyra.justcord.Main.name
+import tech.funkyra.justcord.Settings.botEnabled
+import tech.funkyra.justcord.handlers.MinecraftHandler
 
 import java.io.File
 
@@ -31,14 +33,18 @@ object Main {
 		cfgFile = Some(e.getSuggestedConfigurationFile)
 
 		log.info(s"$name started!")
-		MinecraftForge.EVENT_BUS.register(MinecraftEvents)
+		MinecraftForge.EVENT_BUS.register(MinecraftHandler)
 	}
 
 	@EventHandler
-	def onServerStarting(e: FMLServerStartingEvent): Unit = {
-		Discord.main(Settings.token)
-	}
+	def onServerStarting(e: FMLServerStartingEvent): Unit =
+		if (botEnabled)
+			getChannel.sendMessage("Лягушка встала").queue()
 
 	@EventHandler
-	def onServerStopped(e: FMLServerStoppedEvent): Unit = {}
+	def onServerStopped(e: FMLServerStoppingEvent): Unit =
+		if (botEnabled) {
+			getChannel.sendMessage("Лягушка выключилась").queue()
+			getClient.shutdownNow()
+		}
 }
