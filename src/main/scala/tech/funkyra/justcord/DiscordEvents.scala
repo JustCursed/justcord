@@ -6,6 +6,6 @@ import tech.funkyra.justcord.Discord.MessageToMinecraft
 
 class DiscordEvents extends ListenerAdapter {
     override def onMessageReceived(event: MessageReceivedEvent): Unit = {
-      MessageToMinecraft("%#s: %s\n".format( event.getAuthor, event.getMessage.getContentDisplay))
+      MessageToMinecraft(event.getAuthor + ": " +  event.getMessage.getContentDisplay)
     }
 }
