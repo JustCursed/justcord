@@ -1,14 +1,13 @@
 package tech.funkyra.justcord
 
-import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel
-import net.dv8tion.jda.api.{JDA, JDABuilder}
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent
-import net.dv8tion.jda.api.hooks.ListenerAdapter
+import net.dv8tion.jda.api.entities.{Guild, WebhookClient}
+import net.dv8tion.jda.api.interactions.InteractionHook
 import net.dv8tion.jda.api.requests.GatewayIntent.{GUILD_MESSAGES, MESSAGE_CONTENT}
+import net.dv8tion.jda.api.{JDA, JDABuilder}
 import net.minecraft.server.MinecraftServer
-import net.minecraft.util.{ChatComponentText, IChatComponent}
-import tech.funkyra.justcord.Settings.{channelID, guildID, token}
+import net.minecraft.util.ChatComponentText
+import tech.funkyra.justcord.Settings.{channelID, guildID, token, webhooksUrl}
 import tech.funkyra.justcord.events.DiscordEvents
 
 import java.util
@@ -25,8 +24,11 @@ object DiscordUtil {
 
 	def getChannel: TextChannel = getGuild.getTextChannelById(channelID)
 
-	def messageToDiscord(text: String): Unit = {
-		Main.log.info(s"[Minecraft] $text")
+	def messageToDiscord(nickname: String, message: String, skin: String): Unit = {
+		InteractionHook.from(getClient, webhooksUrl.split("/")[-1])
+
+
+		Main.log.info(s"[Minecraft] $nickname: $message")
 	}
 
 	def messageToMinecraft(text: String): Unit = {

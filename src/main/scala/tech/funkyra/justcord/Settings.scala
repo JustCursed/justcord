@@ -36,5 +36,12 @@ object Settings {
 		"Working channel id"
 	)
 
+	private[justcord] val webhooksUrl = cfg.getString(
+		"webhooksUrl",
+		"general",
+		"https://discord.com/api/webhooks/0000000000000000/abc",
+		"Webhooks Url"
+	)
+
 	if (cfg.hasChanged) cfg.save()
 }
