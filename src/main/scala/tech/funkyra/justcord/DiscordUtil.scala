@@ -2,7 +2,6 @@ package tech.funkyra.justcord
 
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel
 import net.dv8tion.jda.api.entities.{Guild, WebhookClient}
-import net.dv8tion.jda.api.interactions.InteractionHook
 import net.dv8tion.jda.api.requests.GatewayIntent.{GUILD_MESSAGES, MESSAGE_CONTENT}
 import net.dv8tion.jda.api.{JDA, JDABuilder}
 import net.minecraft.server.MinecraftServer
@@ -25,8 +24,7 @@ object DiscordUtil {
 	def getChannel: TextChannel = getGuild.getTextChannelById(channelID)
 
 	def messageToDiscord(nickname: String, message: String, skin: String): Unit = {
-		InteractionHook.from(getClient, webhooksUrl.split("/")[-1])
-
+		WebhookClient.createClient(getClient, webhooksUrl).sendMessage("").setAvatarUrl("").setUsername("").queue()
 
 		Main.log.info(s"[Minecraft] $nickname: $message")
 	}

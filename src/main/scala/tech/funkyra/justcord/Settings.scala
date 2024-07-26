@@ -15,6 +15,13 @@ object Settings {
 		"Should enable bot?"
 	)
 
+	private[justcord] val skinUri = cfg.getString(
+		"skinUri",
+		"general",
+		"https://skins.mcskill.net/?name=%s&mode=5&fx=43&fy=43",
+		"Uri for get head of skin. Instead of %s will player's nick"
+	)
+
 	private[justcord] val token = cfg.getString(
 		"token",
 		"general",
