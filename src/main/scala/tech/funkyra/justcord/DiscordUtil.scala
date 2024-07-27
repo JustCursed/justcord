@@ -32,7 +32,7 @@ object DiscordUtil {
 
 	def messageToMinecraft(nickname: String, message: String): Unit = {
 		if (message.startsWith("/")) usr.addChatMessage(new ChatComponentText(message))
-		MinecraftServer.getServer.getConfigurationManager.sendChatMsg(new ChatComponentText(nickname + ": " +message))
-		Main.log.info(s"[Discord] $message")
+		else MinecraftServer.getServer.getConfigurationManager.sendChatMsg(new ChatComponentText(nickname + ": " +message))
+//		Main.log.info(s"[Discord] $message")
 	}
 }
