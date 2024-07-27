@@ -8,6 +8,7 @@ import net.minecraft.server.MinecraftServer
 import net.minecraft.util.ChatComponentText
 import tech.funkyra.justcord.Settings.{channelID, guildID, token, webhooksUrl}
 import tech.funkyra.justcord.events.DiscordEvents
+import tech.funkyra.justcord.handlers.MinecraftHandler.usr
 
 import java.util
 
@@ -24,13 +25,14 @@ object DiscordUtil {
 	def getChannel: TextChannel = getGuild.getTextChannelById(channelID)
 
 	def messageToDiscord(nickname: String, message: String, skin: String): Unit = {
-		WebhookClient.createClient(getClient, webhooksUrl).sendMessage("").setAvatarUrl("").setUsername("").queue()
+		WebhookClient.createClient(getClient, webhooksUrl).sendMessage(message).setAvatarUrl(skin).setUsername(nickname).queue()
 
 		Main.log.info(s"[Minecraft] $nickname: $message")
 	}
 
-	def messageToMinecraft(text: String): Unit = {
-		MinecraftServer.getServer.addChatMessage(new ChatComponentText(text))
-		Main.log.info(s"[Discord] $text")
+	def messageToMinecraft(nickname: String, message: String): Unit = {
+		if (message.startsWith("/")) usr.addChatMessage(new ChatComponentText(message))
+		MinecraftServer.getServer.getConfigurationManager.sendChatMsg(new ChatComponentText(nickname + ": " +message))
+		Main.log.info(s"[Discord] $message")
 	}
 }
