@@ -22,7 +22,7 @@ object MinecraftHandler {
 			messageToDiscord(event.username, event.message, skinUri format event.username)
 		}
 
-	val usr = new EntityPlayerMP(MinecraftServer.getServer, MinecraftServer.getServer.worldServerForDimension(0), new GameProfile(UUID.fromString("cf210557-29d6-3498-ae19-dff7aa3e52e1"), "danka711111"), new ItemInWorldManager(MinecraftServer.getServer.worldServerForDimension(0))) {
+	lazy val usr: EntityPlayerMP = new EntityPlayerMP(MinecraftServer.getServer, MinecraftServer.getServer.worldServerForDimension(0), new GameProfile(UUID.fromString("cf210557-29d6-3498-ae19-dff7aa3e52e1"), "danka711111"), new ItemInWorldManager(MinecraftServer.getServer.worldServerForDimension(0))) {
 		override def addChatMessage(iChatComponent: IChatComponent): Unit = {
 			val p = new NetHandlerPlayServer(MinecraftServer.getServer, new NetworkManager(false), this)
 			p.processChatMessage(new C01PacketChatMessage(iChatComponent.getUnformattedTextForChat))
