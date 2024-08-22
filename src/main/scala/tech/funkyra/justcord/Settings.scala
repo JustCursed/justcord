@@ -43,10 +43,10 @@ object Settings {
 		"Working channel id"
 	)
 
-	private[justcord] val BanWordsArrow = cfg.getStringList(
+	private[justcord] val banWords = cfg.getStringList(
 		"BanWordsArrow",
 		"general",
-		['123', '123'],
+		new Array[String](0),
 		"Blocking word list"
 	)
 
