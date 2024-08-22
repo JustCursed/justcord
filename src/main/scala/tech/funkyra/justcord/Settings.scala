@@ -44,7 +44,7 @@ object Settings {
 	)
 
 	private[justcord] val banWords = cfg.getStringList(
-		"BanWordsArrow",
+		"banWords",
 		"general",
 		new Array[String](0),
 		"Blocking word list"

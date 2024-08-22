@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.{JDA, JDABuilder}
 import net.minecraft.server.MinecraftServer
 import net.minecraft.util.ChatComponentText
 import tech.funkyra.justcord.Main.log
-import tech.funkyra.justcord.Settings.{BanWordsArrow, channelID, guildID, token, webhooksUrl}
+import tech.funkyra.justcord.Settings.{banWords, channelID, guildID, token, webhooksUrl}
 import tech.funkyra.justcord.events.DiscordEvents
 import tech.funkyra.justcord.handlers.MinecraftHandler.usr
 
@@ -30,14 +30,15 @@ object DiscordUtil {
 	}
 
 	def messageToMinecraft(nickname: String, message: String): Unit = {
+		if (!haveBannedWord(message)) {
 		log.info("[Discord] " + nickname + ": " + message)
 		if (message.startsWith("/")) usr.addChatMessage(new ChatComponentText(message))
 		else MinecraftServer.getServer.getConfigurationManager.sendChatMsg(new ChatComponentText("[Discord] " + nickname + ": " + message))
+		} else getChannel.sendMessage(s"[Blocked] $nickname:  $message").queue()
 	}
 
-	def CheckBanWords(message: String): Boolean = {
-		val words = message.toLowerCase.split("\\s+")
-
-		words.exists(word => BanWordsArrow.exists(root => word.contains(root)))
+	def haveBannedWord(message: String): Boolean = {
+		val words = message.toLowerCase
+		banWords.exists(root => words.contains(root))
 	}
 }
