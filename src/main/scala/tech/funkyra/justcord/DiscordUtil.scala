@@ -6,7 +6,8 @@ import net.dv8tion.jda.api.requests.GatewayIntent.{GUILD_MESSAGES, MESSAGE_CONTE
 import net.dv8tion.jda.api.{JDA, JDABuilder}
 import net.minecraft.server.MinecraftServer
 import net.minecraft.util.ChatComponentText
-import tech.funkyra.justcord.Settings.{channelID, guildID, token, webhooksUrl}
+import tech.funkyra.justcord.Main.log
+import tech.funkyra.justcord.Settings.{BanWordsArrow, channelID, guildID, token, webhooksUrl}
 import tech.funkyra.justcord.events.DiscordEvents
 import tech.funkyra.justcord.handlers.MinecraftHandler.usr
 
@@ -26,13 +27,17 @@ object DiscordUtil {
 
 	def messageToDiscord(nickname: String, message: String, skin: String): Unit = {
 		WebhookClient.createClient(getClient, webhooksUrl).sendMessage(message).setAvatarUrl(skin).setUsername(nickname).queue()
-
-		Main.log.info(s"[Minecraft] $nickname: $message")
 	}
 
 	def messageToMinecraft(nickname: String, message: String): Unit = {
+		log.info("[Discord] " + nickname + ": " + message)
 		if (message.startsWith("/")) usr.addChatMessage(new ChatComponentText(message))
-		else MinecraftServer.getServer.getConfigurationManager.sendChatMsg(new ChatComponentText(nickname + ": " +message))
-//		Main.log.info(s"[Discord] $message")
+		else MinecraftServer.getServer.getConfigurationManager.sendChatMsg(new ChatComponentText("[Discord] " + nickname + ": " + message))
+	}
+
+	def CheckBanWords(message: String): Boolean = {
+		val words = message.toLowerCase.split("\\s+")
+
+		words.exists(word => BanWordsArrow.exists(root => word.contains(root)))
 	}
 }

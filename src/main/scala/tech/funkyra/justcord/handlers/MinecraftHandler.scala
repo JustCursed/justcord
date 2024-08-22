@@ -10,6 +10,7 @@ import net.minecraft.server.management.ItemInWorldManager
 import net.minecraft.util.{ChunkCoordinates, IChatComponent}
 import net.minecraftforge.event.ServerChatEvent
 import tech.funkyra.justcord.DiscordUtil.messageToDiscord
+import tech.funkyra.justcord.Main.name
 import tech.funkyra.justcord.Settings.{botEnabled, skinUri}
 
 import java.util.UUID
@@ -22,7 +23,7 @@ object MinecraftHandler {
 			messageToDiscord(event.username, event.message, skinUri format event.username)
 		}
 
-	lazy val usr: EntityPlayerMP = new EntityPlayerMP(MinecraftServer.getServer, MinecraftServer.getServer.worldServerForDimension(0), new GameProfile(UUID.fromString("cf210557-29d6-3498-ae19-dff7aa3e52e1"), "Magicord"), new ItemInWorldManager(MinecraftServer.getServer.worldServerForDimension(0))) {
+	lazy val usr: EntityPlayerMP = new EntityPlayerMP(MinecraftServer.getServer, MinecraftServer.getServer.worldServerForDimension(0), new GameProfile(UUID.fromString("cf210557-29d6-3498-ae19-dff7aa3e52e1"), name), new ItemInWorldManager(MinecraftServer.getServer.worldServerForDimension(0))) {
 		override def addChatMessage(iChatComponent: IChatComponent): Unit = {
 			val p = new NetHandlerPlayServer(MinecraftServer.getServer, new NetworkManager(false), this)
 			p.processChatMessage(new C01PacketChatMessage(iChatComponent.getUnformattedTextForChat))

@@ -43,6 +43,13 @@ object Settings {
 		"Working channel id"
 	)
 
+	private[justcord] val BanWordsArrow = cfg.getStringList(
+		"BanWordsArrow",
+		"general",
+		['123', '123'],
+		"Blocking word list"
+	)
+
 	private[justcord] val webhooksUrl = cfg.getString(
 		"webhooksUrl",
 		"general",
